@@ -3,12 +3,17 @@ set -euo pipefail  # Exit on error, undefined vars, and pipeline failures
 IFS=$'\n\t'       # Stricter word splitting
 
 allowed_domains=(
-    "api.anthropic.com"
-    "platform.claude.com"
+    "api.githubcopilot.com"
+    "api.individual.githubcopilot.com"
+    "api.business.githubcopilot.com"
+    "api.enterprise.githubcopilot.com"
+    "copilot-proxy.githubusercontent.com"
+    "objects.githubusercontent.com"
     "pypi.org"
     "files.pythonhosted.org"
     "registry.npmjs.org"
     "binaries.soliditylang.org"
+    "login.microsoftonline.com"
 )
 
 # 1. Extract Docker DNS info BEFORE any flushing

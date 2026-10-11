@@ -1,6 +1,6 @@
-# Claude Code - Dev Container Setup
+# GitHub Copilot CLI - Dev Container Setup
 
-A secure, consistent environment for using Claude Code. Works on Windows and macOS.
+A secure, consistent environment for using GitHub Copilot CLI. Works on Windows and macOS.
 
 ---
 
@@ -39,13 +39,13 @@ On first launch, in Rancher Desktop's preferences, set the **Container Engine** 
 2. Open your working folder in VS Code (`File > Open Folder`).
 3. Click **"Reopen in Container"** when prompted, or open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) and run **Dev Containers: Reopen in Container**.
    - The first build takes a few minutes; subsequent opens are fast.
-4. Run `claude` in the terminal to start.
+4. Run `copilot` in the terminal to start, then use `/login` to authenticate.
 
 ---
 
 ## What is and isn't accessible inside the container
 
-- **Only the folder you opened** is accessible inside the container. Claude cannot see other files on your machine.
+- **Only the folder you opened** is accessible inside the container. Copilot cannot see other files on your machine.
 - Organisation security settings are enforced via server-managed settings and cannot be changed.
 
 ### Network access
@@ -54,7 +54,7 @@ A firewall runs automatically on every container start and restricts outbound tr
 
 | Service                                    | Purpose                          |
 | ------------------------------------------ | -------------------------------- |
-| `api.anthropic.com`, `platform.claude.com` | Claude Code                      |
+| `*.githubcopilot.com`                      | GitHub Copilot CLI               |
 | GitHub IP ranges                           | Git operations                   |
 | `pypi.org`, `files.pythonhosted.org`       | Python package installs (`pip`)  |
 | `registry.npmjs.org`                       | Node.js package installs (`npm`) |
@@ -73,16 +73,10 @@ The firewall is (re-)applied via `sudo init-firewall.sh` every time the containe
 
 ### Persistent configuration
 
-Claude's configuration and settings are stored in a named Docker volume (`devc-<folder-name>-config-<container-id>`), not inside the container filesystem. This means your Claude settings survive container rebuilds and image updates. Shell command history is similarly persisted in its own named volume, so it survives rebuilds too.
-
-By default, Claude Code splits its state between `~/.claude/` and a separate `~/.claude.json` file, but only `~/.claude/` is backed by the persistent volume above. `containerEnv.CLAUDE_CONFIG_DIR` is set to `/home/vscode/.claude`, which redirects all of Claude's state (including what would otherwise land in `~/.claude.json`) into that single mounted directory — so login/auth persists across rebuilds without needing a second volume.
-
-### Auto-updates and telemetry
-
-`DISABLE_AUTOUPDATER=1` and `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1` are set by default. Claude Code will not auto-update inside the container and non-essential network traffic (telemetry, update checks) is suppressed.
+Copilot's configuration and state (`~/.copilot/`) are stored in a named Docker volume (`devc-<folder-name>-config-<container-id>`), not inside the container filesystem, so settings and login survive container rebuilds. Shell command history is similarly persisted in its own named volume.
 
 ---
 
 ## For administrators
 
-Organisation-level policy is enforced via server-managed settings in the Claude.ai admin console - these are fetched at login and cannot be overridden by users or project files.
+Copilot policy (models, features, MCP) is managed through your GitHub organisation or enterprise Copilot settings.

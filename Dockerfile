@@ -20,16 +20,16 @@ ARG USERNAME=vscode
 
 # Persist bash history and set ownership (combined for fewer layers)
 RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" && \
-  mkdir -p /commandhistory /workspace /home/$USERNAME/.claude && \
+  mkdir -p /commandhistory /workspace /home/$USERNAME/.copilot && \
   touch /commandhistory/.bash_history && \
-  chown -R $USERNAME:$USERNAME /commandhistory /workspace /home/$USERNAME/.claude
+  chown -R $USERNAME:$USERNAME /commandhistory /workspace /home/$USERNAME/.copilot
 
 WORKDIR /workspace
 
 # Switch to non-root user for remaining setup
 USER $USERNAME
 
-# Set PATH early so claude and other user-installed binaries are available
+# Set PATH early so copilot and other user-installed binaries are available
 ENV PATH="/home/$USERNAME/.local/bin:$PATH"
 
 # Set the default shell to zsh rather than sh
@@ -42,15 +42,12 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
   -a "export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" \
   -x
 
-# --- Claude Code CLI (installed as the claude user so it lands in ~/.local/bin) ---
+# --- GitHub Copilot CLI (installed as the non-root user so it lands in ~/.local/bin) ---
 # This layer is intentionally placed before the common system packages so that
 # adding new packages does not invalidate this slow download step.
-RUN curl -fsSL https://claude.ai/install.sh | bash
+RUN curl -fsSL https://gh.io/copilot-install | bash
 
 USER root
-RUN cp /home/$USERNAME/.local/bin/claude /usr/local/bin/claude && \
-  chmod +x /usr/local/bin/claude
-
 RUN git config --global --add safe.directory '*'
 
 # Copy and set up firewall script
