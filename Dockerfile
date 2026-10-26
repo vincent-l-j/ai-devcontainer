@@ -21,11 +21,11 @@ ARG USERNAME=vscode
 
 # Persist bash history and set ownership (combined for fewer layers)
 RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history" && \
-  mkdir -p /commandhistory /workspace /home/$USERNAME/.copilot && \
+  mkdir -p /commandhistory /Users/v/Documents/repos/technology /home/$USERNAME/.copilot && \
   touch /commandhistory/.bash_history && \
-  chown -R $USERNAME:$USERNAME /commandhistory /workspace /home/$USERNAME/.copilot
+  chown -R $USERNAME:$USERNAME /commandhistory /Users/v/Documents/repos/technology /home/$USERNAME/.copilot
 
-WORKDIR /workspace
+WORKDIR /Users/v/Documents/repos/technology
 
 # Switch to non-root user for remaining setup
 USER $USERNAME

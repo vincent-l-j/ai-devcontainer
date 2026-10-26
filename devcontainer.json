@@ -13,8 +13,8 @@
 
   "postStartCommand": "sudo /usr/local/bin/init-firewall.sh",
 
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
-  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/Users/v/Documents/repos/technology,type=bind,consistency=delegated",
+  "workspaceFolder": "/Users/v/Documents/repos/technology",
 
   "mounts": [
     "source=devc-${localWorkspaceFolderBasename}-bashhistory-${devcontainerId},target=/commandhistory,type=volume",
