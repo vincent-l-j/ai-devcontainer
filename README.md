@@ -52,12 +52,15 @@ On first launch, in Rancher Desktop's preferences, set the **Container Engine** 
 
 A firewall runs automatically on every container start and restricts outbound traffic to a fixed allowlist:
 
-| Service                                    | Purpose                          |
-| ------------------------------------------ | -------------------------------- |
-| `*.githubcopilot.com`                      | GitHub Copilot CLI               |
-| GitHub IP ranges                           | Git operations                   |
-| `pypi.org`, `files.pythonhosted.org`       | Python package installs (`pip`)  |
-| `registry.npmjs.org`                       | Node.js package installs (`npm`) |
+| Service                                                                                                                                  | Purpose                          |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| `api.githubcopilot.com`, `api.{individual,business,enterprise}.githubcopilot.com`, `copilot-proxy.githubusercontent.com`                 | GitHub Copilot CLI               |
+| `login.microsoftonline.com`                                                                                                              | Authentication                   |
+| GitHub IP ranges (web, API, git), `objects.githubusercontent.com`                                                                        | Git operations, `gh`, downloads  |
+| SSH (port 22, any host)                                                                                                                  | Git over SSH                     |
+| `pypi.org`, `files.pythonhosted.org`                                                                                                     | Python package installs (`pip`)  |
+| `registry.npmjs.org`                                                                                                                     | Node.js package installs (`npm`) |
+| `binaries.soliditylang.org`                                                                                                              | Solidity compiler downloads      |
 
 All other outbound internet access is blocked. If a tool or script tries to reach an unlisted host it will be rejected immediately (ICMP admin-prohibited).
 
@@ -69,7 +72,7 @@ The firewall is (re-)applied via `sudo init-firewall.sh` every time the containe
 
 - **Node.js** (via the `node` dev container feature, installed through nvm) and **Python 3** are both preinstalled, so `npm` and `pip`/`python3` work out of the box against the allowlisted registries above.
 - **zsh** (with the Powerlevel10k theme) is the default shell, in both the integrated VS Code terminal and any terminal you open.
-- Common CLI utilities are included: `git`, `curl`, `jq`, `vim`, `nano`, `unzip`, `build-essential`.
+- Common CLI utilities are included: `git`, `gh` (GitHub CLI), `curl`, `jq`, `vim`, `nano`, `unzip`, `build-essential`.
 
 ### Persistent configuration
 
