@@ -36,6 +36,7 @@ ENV PATH="/home/$USERNAME/.local/bin:$PATH"
 # Set the default shell to zsh rather than sh
 ENV SHELL=/bin/zsh
 
+ARG NULL=0
 # Default powerline10k theme
 ARG ZSH_IN_DOCKER_VERSION=1.2.0
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v${ZSH_IN_DOCKER_VERSION}/zsh-in-docker.sh)" -- \
